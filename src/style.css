@@ -36,31 +36,38 @@ button {
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+  gap: 6px;
+  padding: 6px 10px calc(6px + env(safe-area-inset-bottom));
 }
 
 .select-title {
   text-align: center;
-  font-size: 30px;
+  font-size: 24px;
   line-height: 1.2;
 }
 
+/* 12点を1画面に収める（スクロールで隠れた絵は3歳児が見つけられないため）。
+   縦に入りきらない小さい端末でだけスクロールに逃がす */
 .thumb-grid {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
   align-content: start;
+  /* 画面の高さから1マスの上限幅を逆算する（1マス = 縦3:4 + パディング16px、4行分）。
+     画面が横に広い端末でもサムネイルが縦にはみ出さない */
+  width: 100%;
+  max-width: calc(3 * ((((100dvh - 71px) / 4) - 16px) * 0.75 + 16px) + 16px);
+  margin-inline: auto;
 }
 
 .thumb {
   display: block;
   background: #ffffff;
-  border-radius: 18px;
-  padding: 8px;
+  border-radius: 14px;
+  padding: 5px;
   border: 3px solid #f3e2c4;
   box-shadow: 0 2px 8px rgba(90, 60, 20, 0.12);
 }
@@ -340,7 +347,12 @@ button {
     margin-top: auto;
   }
 
+  /* 横持ちは高さが足りないので 6列×2行。画面の高さから1マスの上限幅を逆算し
+     （1マス = 縦3:4 + パディング16px、2行 + タイトル分）、12点をスクロールなしで並べきる */
   .thumb-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+    width: 100%;
+    max-width: calc(6 * (((100dvh - 55px) / 2 - 16px) * 0.75 + 16px) + 40px);
+    margin-inline: auto;
   }
 }

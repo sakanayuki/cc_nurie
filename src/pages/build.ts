@@ -107,6 +107,21 @@ export function starPath(cx: number, cy: number, outer: number, inner = outer * 
   return `M ${pts.join(' L ')} Z`;
 }
 
+/** もこもこした雲のパス（中心 cx, cy ／ 半幅 w） */
+export function cloudPath(cx: number, cy: number, w: number): string {
+  const h = w * 0.6;
+  const b = cy + h * 0.5;
+  const n = (v: number): string => v.toFixed(1);
+  return [
+    `M ${n(cx - w)} ${n(b)}`,
+    `Q ${n(cx - w - 8)} ${n(b - h * 0.6)} ${n(cx - w * 0.55)} ${n(b - h * 0.66)}`,
+    `Q ${n(cx - w * 0.5)} ${n(b - h * 1.3)} ${n(cx - w * 0.05)} ${n(b - h * 1.14)}`,
+    `Q ${n(cx + w * 0.45)} ${n(b - h * 1.3)} ${n(cx + w * 0.55)} ${n(b - h * 0.62)}`,
+    `Q ${n(cx + w + 8)} ${n(b - h * 0.6)} ${n(cx + w)} ${n(b)}`,
+    'Z',
+  ].join(' ');
+}
+
 /** 太陽の光線（短い放射線）のパス */
 export function sunRaysPath(cx: number, cy: number, r1: number, r2: number, count = 8): string {
   return Array.from({ length: count }, (_, i) => {
